@@ -32,8 +32,8 @@ class taggedSF{
   double n_MF(double p);
   double n_tot(double p);
   double J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, double *p2perp);
-  double rho_pn(double alpha1, double *p1perp, double alpha2, double *p2perp);
-  double rho_nn(double alpha1, double *p1perp, double alpha2, double *p2perp);
+  double rho_pn(double alpha1, double *p1perp, double alpha2, double *p2perp, double Jacobian);
+  double rho_nn(double alpha1, double *p1perp, double alpha2, double *p2perp, double Jacobian);
   double F2p(double x, double Qsq);
   double Rpn(double x);
   

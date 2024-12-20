@@ -311,7 +311,7 @@ double taggedSF::J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, dou
 
 
 
-double taggedSF::rho_pn(double alpha1, double *p1perp, double alpha2, double *p2perp){
+double taggedSF::rho_pn(double alpha1, double *p1perp, double alpha2, double *p2perp, double Jacobian){
 
   double p1z, p2z;
   Findpz(alpha1, p1perp, alpha2, p2perp, p1z, p2z);
@@ -332,7 +332,6 @@ double taggedSF::rho_pn(double alpha1, double *p1perp, double alpha2, double *p2
 
   double Q = sqrt(psum[0]*psum[0] +  psum[1]*psum[1] + psum[2]*psum[2]);
 
-  double Jacobian = J_pz_to_alpha( alpha1, p1perp, alpha2, p2perp);
   
   double rho_np = ( 1 - ( n_MF(p1mag) / n_tot(p1mag) ) ) * ( 1 - ( n_MF(p2mag) / n_tot(p2mag) ) ) * ( 1 / (A - 1) ) * n_pn( q , Q ) * Jacobian;  
 
@@ -340,7 +339,7 @@ double taggedSF::rho_pn(double alpha1, double *p1perp, double alpha2, double *p2
 }
 
 
-double taggedSF::rho_nn(double alpha1, double *p1perp, double alpha2, double *p2perp){
+double taggedSF::rho_nn(double alpha1, double *p1perp, double alpha2, double *p2perp, double Jacobian){
 
   double p1z, p2z;
   Findpz(alpha1, p1perp, alpha2, p2perp, p1z, p2z);
@@ -361,7 +360,6 @@ double taggedSF::rho_nn(double alpha1, double *p1perp, double alpha2, double *p2
 
   double Q = sqrt(psum[0]*psum[0] +  psum[1]*psum[1] + psum[2]*psum[2]);
 
-  double Jacobian = J_pz_to_alpha( alpha1, p1perp, alpha2, p2perp);
   
   double rho_nn = ( 1 - ( n_MF(p1mag) / n_tot(p1mag) ) ) * ( 1 - ( n_MF(p2mag) / n_tot(p2mag) ) ) * ( 2 / (A - 1) ) * n_nn( q , Q ) * Jacobian;  
 
@@ -523,7 +521,7 @@ double taggedSF::taggedF2(double xB, double Qsq, double alpha2, double *p2perp){
 
     double pdf_total = pdf_alpha * pdf_p1x * pdf_p1y;
 
-    double F = 1/(A*alpha2) * F2p(xtil, Qsq) * (Z*rho_pn(alpha1, p1perp, alpha2, p2perp) + N*Rpn(xtil)*rho_nn(alpha1, p1perp, alpha2, p2perp)); //no modification for now
+    double F = 1/(A*alpha2) * F2p(xtil, Qsq) * (Z*rho_pn(alpha1, p1perp, alpha2, p2perp, jacobian) + N*Rpn(xtil)*rho_nn(alpha1, p1perp, alpha2, p2perp, jacobian)); //no modification for now
 
     
     double w =  F/(alpha1*pdf_total);
