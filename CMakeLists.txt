@@ -12,6 +12,7 @@ project (tagged_dis_he4)
 include_directories(${CMAKE_SOURCE_DIR}/include ${ROOT_INCLUDE_DIR})
 
 # Subdirectories
+add_subdirectory(interp) # for interpolation
 add_subdirectory(taggedSF) # for tagged spectral function library
 
 # Generator executable
