@@ -22,7 +22,7 @@ int main(int argc, char** argv){
   myfile << std::fixed << "a_1" << std::setw(20) << "a_2" << std::setw(20) << "p1z" << std::setw(20) << "p2z" << endl;*/
   
   //testing pz
-  double p1z, p2z;
+  double p1z, p2z, err;
   double a1 = 0.7;
   double a2 = 1.3;
   //double p1perp[2] = {0.2,0.2};
@@ -68,7 +68,7 @@ int main(int argc, char** argv){
 
 
   
-  double F2check = tag_check->taggedF2(0.4, 2., a2 , p2perp);
+  double F2check = tag_check->taggedF2(0.4, 2., a2 , p2perp, err);
 
   cout << "\n tagged F2 " << F2check << endl;
   return 0;

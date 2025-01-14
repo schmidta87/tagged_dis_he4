@@ -93,7 +93,7 @@ void taggedSF::Findpz(double alpha1, double *p1perp, double alpha2, double *p2pe
   double p1z_min = -10.;//in GeV
   double p1z_max = 10.;
 
-  double tol = 1.e-12; //tolerance, adjust later
+  double tol = 1.e-10; //tolerance, adjust later
   //can go to 10^-14 if needed
   double diff = 10.;
 
@@ -103,11 +103,11 @@ void taggedSF::Findpz(double alpha1, double *p1perp, double alpha2, double *p2pe
 
     if (index == 100){
       std::cerr << "\nInversion Failure" << std::endl;
-      std::cout << "\n\nalpha1 is " << alpha1 << std::endl;
-      std::cout << "p1perp is {" << p1perp[0] << " , " << p1perp[1] << "}" << std::endl;      
-      std::cout << "alpha2 is " << alpha2 << std::endl;
-      std::cout << "p2perp is {" << p2perp[0] << " , " << p2perp[1] << "}" << std::endl;
-      std::cout << "p1z is " << p1z << " and p2z is " << p2z << std::endl;
+      std::cerr << "\n\nalpha1 is " << alpha1 << std::endl;
+      std::cerr << "p1perp is {" << p1perp[0] << " , " << p1perp[1] << "}" << std::endl;      
+      std::cerr << "alpha2 is " << alpha2 << std::endl;
+      std::cerr << "p2perp is {" << p2perp[0] << " , " << p2perp[1] << "}" << std::endl;
+      std::cerr << "p1z is " << p1z << " and p2z is " << p2z << std::endl;
       exit(-2);}//if stuck in loop
     
 
@@ -210,13 +210,9 @@ double taggedSF::da2dp2z(double *p1perp, double p1z, double *p2perp, double p2z)
 }
 
 
-double taggedSF::J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, double *p2perp){
-  ////This is for troubleshooting, delete when actually running////
-  double p1z, p2z;
-  Findpz(alpha1, p1perp, alpha2 ,p2perp, p1z, p2z);
-  ///////
+double taggedSF::J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, double *p2perp, double p1z, double p2z){
     
-    double p1z_lo1, p1z_hi1, p2z_lo1, p2z_hi1; //used for alpha1 partials (instead of reusing variables)
+  /*    double p1z_lo1, p1z_hi1, p2z_lo1, p2z_hi1; //used for alpha1 partials (instead of reusing variables)
   double p1z_lo2, p1z_hi2, p2z_lo2, p2z_hi2; //used for alpha2 partials
 
   double alpha1_lo = alpha1 - 0.005;
@@ -235,7 +231,7 @@ double taggedSF::J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, dou
   double d_a1_d_p2z = ( alpha1_hi - alpha1_lo ) / ( p2z_hi1 - p2z_lo1 ) ;
   
   double d_a2_d_p1z = ( alpha2_hi - alpha2_lo ) / ( p1z_hi2 - p1z_lo2 ) ;
-  double d_a2_d_p2z = ( alpha2_hi - alpha2_lo ) / ( p2z_hi2 - p2z_lo2 ) ;
+  double d_a2_d_p2z = ( alpha2_hi - alpha2_lo ) / ( p2z_hi2 - p2z_lo2 ) ;*/
   ////////
   
   double da1_dp1z = da1dp1z(p1perp,p1z,p2perp,p2z);
@@ -246,7 +242,7 @@ double taggedSF::J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, dou
   double det = abs(( da1_dp1z * da2_dp2z ) - ( da1_dp2z * da2_dp1z ));
 
 
-
+  /*
   if (det>1e9){
 
     std::cout << "\n\n\n\nalpha1: " << alpha1 << std::endl;
@@ -282,7 +278,7 @@ double taggedSF::J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, dou
     std::cout << "hi p2z: " << p2z_hi2 << std::endl;
     
   }
-  
+  */  
   /*if (det>1e9){
     std::cout << "\n\nda1/dp1z is " << d_a1_d_p1z << std::endl;
     std::cout << "da1/dp2z is " << d_a1_d_p2z << std::endl;
@@ -311,12 +307,8 @@ double taggedSF::J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, dou
 
 
 
-double taggedSF::rho_pn(double alpha1, double *p1perp, double alpha2, double *p2perp, double Jacobian){
+double taggedSF::rho_pn(double alpha1, double *p1perp, double alpha2, double *p2perp, double p1z, double p2z, double Jacobian){
 
-  double p1z, p2z;
-  Findpz(alpha1, p1perp, alpha2, p2perp, p1z, p2z);
-  
-  
   double p1[3] = {p1perp[0], p1perp[1], p1z};
   double p2[3] = {p2perp[0], p2perp[1], p2z};
 
@@ -339,12 +331,8 @@ double taggedSF::rho_pn(double alpha1, double *p1perp, double alpha2, double *p2
 }
 
 
-double taggedSF::rho_nn(double alpha1, double *p1perp, double alpha2, double *p2perp, double Jacobian){
+double taggedSF::rho_nn(double alpha1, double *p1perp, double alpha2, double *p2perp, double p1z, double p2z, double Jacobian){
 
-  double p1z, p2z;
-  Findpz(alpha1, p1perp, alpha2, p2perp, p1z, p2z);
-  
-  
   double p1[3] = {p1perp[0], p1perp[1], p1z};
   double p2[3] = {p2perp[0], p2perp[1], p2z};
 
@@ -427,11 +415,11 @@ double taggedSF::Rpn(double x){
 }
 
 
-double taggedSF::taggedF2(double xB, double Qsq, double alpha2, double *p2perp){
+double taggedSF::taggedF2(double xB, double Qsq, double alpha2, double *p2perp, double &integral_err){
 
   double integral = 0;
   double weightsq = 0;
-  long int n = 1e9; //increase once working
+  long int n = 1.5e8; //increase once working
 
   long int breakcount = 0;
   const double alpha_min = xB*mN/mbar;
@@ -442,10 +430,10 @@ double taggedSF::taggedF2(double xB, double Qsq, double alpha2, double *p2perp){
   //add all (most?) variables in loop as cosntants here)
   
   for (long int i = 0 ; i < n ; i++ ){
-    if (i%1000000 == 0){
+    if (i%15000000 == 0){
       //std::cout << "i is " << i << ", n is " << n << std::endl;
-      std::cout << ((double) i)/((double)n)*100 << "% done\n";
-      std::cout << "if stopped here, F2tag would be " << integral/((double)i)  << " +/- " << sqrt(weightsq)/((double)i) << std::endl;
+      std::cerr << ((double) i)/((double)n)*100 << "% done\n";
+      std::cerr << "if stopped here, F2tag would be " << integral/((double)i)  << " +/- " << sqrt(weightsq)/((double)i) << std::endl;
     }
 
 
@@ -476,7 +464,7 @@ double taggedSF::taggedF2(double xB, double Qsq, double alpha2, double *p2perp){
       exit(-2);
       }*/
 
-    double jacobian = J_pz_to_alpha(alpha1, p1perp, alpha2, p2perp);
+    double jacobian = J_pz_to_alpha(alpha1, p1perp, alpha2, p2perp, p1z, p2z);
     
     double p1[3] = {p1perp[0], p1perp[1], p1z};
     double p2[3] = {p2perp[0], p2perp[1], p2z};
@@ -512,6 +500,10 @@ double taggedSF::taggedF2(double xB, double Qsq, double alpha2, double *p2perp){
       continue;
     }
 
+    if ( (p1mag < 0.004925) or (p1mag > 1.96507) ){
+      continue;
+    }
+
     
     //double pcmperp[2] = {p1perp[0]+p2perp[0], p1perp[1]+p2perp[1]};
 
@@ -521,21 +513,21 @@ double taggedSF::taggedF2(double xB, double Qsq, double alpha2, double *p2perp){
 
     double pdf_total = pdf_alpha * pdf_p1x * pdf_p1y;
 
-    double F = 1/(A*alpha2) * F2p(xtil, Qsq) * (Z*rho_pn(alpha1, p1perp, alpha2, p2perp, jacobian) + N*Rpn(xtil)*rho_nn(alpha1, p1perp, alpha2, p2perp, jacobian)); //no modification for now
+    double F = 1/(A*alpha2) * F2p(xtil, Qsq) * (Z*rho_pn(alpha1, p1perp, alpha2, p2perp, p1z, p2z, jacobian) + N*Rpn(xtil)*rho_nn(alpha1, p1perp, alpha2, p2perp, p1z, p2z, jacobian)); //no modification for now
 
     
     double w =  F/(alpha1*pdf_total);
 
     if ( fabs(w) > 100000000 ){
-      std::cout << "\nalpha1 is " << alpha1 << std::endl;
-      std::cout << "p1 is { " << p1x << " , " << p1y << " , " << p1z << " } with mag " << p1mag << std::endl;
-      std::cout << "p2 is { " << p2perp[0] << " , " << p2perp[1] << " , " << p2z << " } with mag " << p2mag << std::endl;
-      std::cout << "alpha1's pdf is " << pdf_alpha << ", p1x's pdf is " << pdf_p1x << ", p1y's pdf is " << pdf_p1y << ", and the total pdf is " << pdf_total << std::endl;
-      std::cout << "virtuality is " << v1 << std::endl;
-      std::cout << "F2p(xtil, Qsq) is " << F2p(xtil, Qsq) << std::endl;
-      std::cout << "Rpn(xtil) is " << Rpn(xtil) << std::endl;
-      std::cout << "J_pz_to_alpha( alpha1, p1perp, alpha2, p2perp) is " << jacobian << std::endl;
-      std::cout << "The change to F2A is " << (integral + w)/(((double)i)+1) - integral/((double)i) << std::endl;
+      std::cerr << "\nalpha1 is " << alpha1 << std::endl;
+      std::cerr << "p1 is { " << p1x << " , " << p1y << " , " << p1z << " } with mag " << p1mag << std::endl;
+      std::cerr << "p2 is { " << p2perp[0] << " , " << p2perp[1] << " , " << p2z << " } with mag " << p2mag << std::endl;
+      std::cerr << "alpha1's pdf is " << pdf_alpha << ", p1x's pdf is " << pdf_p1x << ", p1y's pdf is " << pdf_p1y << ", and the total pdf is " << pdf_total << std::endl;
+      std::cerr << "virtuality is " << v1 << std::endl;
+      std::cerr << "F2p(xtil, Qsq) is " << F2p(xtil, Qsq) << std::endl;
+      std::cerr << "Rpn(xtil) is " << Rpn(xtil) << std::endl;
+      std::cerr << "J_pz_to_alpha( alpha1, p1perp, alpha2, p2perp) is " << jacobian << std::endl;
+      std::cerr << "The change to F2A is " << (integral + w)/(((double)i)+1) - integral/((double)i) << std::endl;
       }
     
     
@@ -564,9 +556,9 @@ double taggedSF::taggedF2(double xB, double Qsq, double alpha2, double *p2perp){
 
   integral = integral/((double)n);
   //weightsq = weightsq/((double)n);
-  double integral_err = sqrt(weightsq)/((double)n);
-  std::cout << "Integral +- int error: " << integral << " +/- " << integral_err << std::endl;
-  std::cout << "Findpz failed " << breakcount << "times" <<std::endl;
+  integral_err = sqrt(weightsq)/((double)n);
+  std::cerr << "Integral +- int error: " << integral << " +/- " << integral_err << std::endl;
+  std::cerr << "Findpz failed " << breakcount << "times" <<std::endl;
   return integral;
     //return 0;
 

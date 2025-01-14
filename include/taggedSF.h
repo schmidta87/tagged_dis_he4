@@ -10,7 +10,7 @@ class taggedSF{
  public:
   taggedSF();
   ~taggedSF();
-  double taggedF2(double xB, double Qsq, double alpha2, double *p2perp);
+  double taggedF2(double xB, double Qsq, double alpha2, double *p2perp, double &integral_err);
   void Findpz(double alpha1, double *p1perp, double alpha2, double *p2perp, double &p1z, double &p2z);
   double da1dp1z(double *p1perp, double p1z, double *p2perp, double p2z);
   double da1dp2z(double *p1perp, double p1z, double *p2perp, double p2z);
@@ -31,9 +31,9 @@ class taggedSF{
   double n_nn(double q, double Q);
   double n_MF(double p);
   double n_tot(double p);
-  double J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, double *p2perp);
-  double rho_pn(double alpha1, double *p1perp, double alpha2, double *p2perp, double Jacobian);
-  double rho_nn(double alpha1, double *p1perp, double alpha2, double *p2perp, double Jacobian);
+  double J_pz_to_alpha(double alpha1, double *p1perp, double alpha2, double *p2perp, double p1z, double p2z);
+  double rho_pn(double alpha1, double *p1perp, double alpha2, double *p2perp, double p1z, double p2z, double Jacobian);
+  double rho_nn(double alpha1, double *p1perp, double alpha2, double *p2perp, double p1z, double p2z, double Jacobian);
   double F2p(double x, double Qsq);
   double Rpn(double x);
   

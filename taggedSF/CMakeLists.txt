@@ -10,3 +10,7 @@ target_link_libraries(taggedSF ${ROOT_LIBRARIES} GridInterp LineInterp)
 #add test executable
 add_executable(debug_taggedSF debug_taggedSF.cpp)
 target_link_libraries(debug_taggedSF ${ROOT_LIBRARIES} GridInterp LineInterp taggedSF)
+
+#add calc executable
+add_executable(calc calc.cpp)
+target_link_libraries(calc ${ROOT_LIBRARIES} GridInterp LineInterp taggedSF)
